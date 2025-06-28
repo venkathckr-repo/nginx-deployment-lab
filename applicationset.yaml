@@ -19,7 +19,7 @@ spec:
     spec:
       project: default
       source:
-        repoURL: 'https://github.com/<your-username>/nginx-deployment-lab'
+        repoURL: 'https://github.com/venkathckr-repo/nginx-deployment-lab.git'
         targetRevision: HEAD
         path: '{{env}}'
       destination:
