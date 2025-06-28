@@ -1,0 +1,33 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: nginx-environments
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+          - env: dev
+            name: dev-nginx
+          - env: staging
+            name: staging-nginx
+          - env: production
+            name: production-nginx
+  template:
+    metadata:
+      name: '{{name}}'
+    spec:
+      project: default
+      source:
+        repoURL: 'https://github.com/<your-username>/nginx-deployment-lab'
+        targetRevision: HEAD
+        path: '{{env}}'
+      destination:
+        server: 'https://kubernetes.default.svc'
+        namespace: '{{env}}'
+      syncPolicy:
+        automated:
+          prune: true
+          selfHeal: true
+        syncOptions:
+          - CreateNamespace=true
